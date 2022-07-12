@@ -1,0 +1,45 @@
+#logo {
+    width: 600px;
+    margin: 0 auto;
+    display: block;
+}
+
+#logo img {
+    width: 100%;
+}
+
+#menu {
+    text-align: center;
+    border-bottom: 1px solid black;
+    height: 35px;
+}
+
+#menu a {
+    font-size: 20px;
+    color: black;
+    text-decoration: none;
+    margin: 5px 15px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    transition: color, background 0.5s;
+}
+
+#menu a:hover {
+    background: indianred;
+    color: white;
+}
+
+#content {
+    text-align: center;
+    margin: 10px auto;
+    font-size: 25px;
+}
+
+#form {
+    text-align: center;
+    margin: 10px auto;
+}
+
+#form #info {
+    margin: 0 0 0 60px;
+}

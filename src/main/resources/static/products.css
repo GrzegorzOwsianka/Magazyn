@@ -1,0 +1,39 @@
+#content {
+    width: 50%;
+    margin: 1px auto;
+    text-align: center;
+}
+
+.product {
+    margin: 10px 160px;
+    padding: 10px;
+    width: 50%;
+    border: 1px solid black;
+    border-radius: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: border 0.5s;
+    transition: color 0.5s;
+}
+
+.product:hover {
+    color: indianred;
+    border: 1px solid indianred;
+}
+
+.product .nazwa {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.product .kod {
+    font-size:18px;
+    margin: 10px 0;
+}
+
+.product .ilosc {
+    font-size:15px;
+    margin: 5px 10px;
+    font-weight: bold;
+    color: indianred;
+}
