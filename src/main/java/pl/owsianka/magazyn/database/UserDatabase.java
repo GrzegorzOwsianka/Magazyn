@@ -18,4 +18,14 @@ public class UserDatabase {
     public List<User> getUsers() {
         return users;
     }
+
+    public User getUserByLogin(String login) {
+        for(User user : this.users){
+            if (user.getLogin().equals(login)) {
+                return user;
+            }
+        }
+
+        return null;
+    }
 }

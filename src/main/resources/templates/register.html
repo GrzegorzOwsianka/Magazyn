@@ -1,10 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="stylesheet" href="/main.css">
+    <link rel="stylesheet" href="/form.css">
+    <title>Magazyn</title>
 </head>
 <body>
+
+<a href="/main" id="logo">
+    <img src="/logo.png">
+</a>
+
+<div id="menu">
+    <a href="/main">Strona Główna</a>
+    <a href="/contact">Kontakt</a>
+    <a href="/products">Produkty</a>
+    <a href="/login">Login</a>
+</div>
+
+<div id="content">
+    <form method="post">
+        <input type="text" placeholder="Login">
+        <input type="password" placeholder="Hasło">
+        <input type="password" placeholder="Powtórz hasło" name="password2">
+        <input type="submit" value="OK">
+    </form>
+</div>
 
 </body>
 </html>
