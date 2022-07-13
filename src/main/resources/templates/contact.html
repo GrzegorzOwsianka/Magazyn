@@ -28,11 +28,15 @@
     <h2>Formularz kontaktowy:</h2>
 
     <form action="/info">
-        <label for="fname">First name:</label><br>
-        <input type="text" id="fname" name="fname"><br>
-        <label for="lname">Last name:</label><br>
-        <input type="text" id="lname" name="lname"><br><br>
-        <textarea id="info" name="info" rows="4" cols="50">Wpisz wiadomość</textarea><br>
+        <label for="fname">Imię</label>
+        <input type="text" id="fname" name="firstname" placeholder="Twoje imię...">
+
+        <label for="lname">Nazwisko</label>
+        <input type="text" id="lname" name="lastname" placeholder="Twoje nazwisko...">
+
+        <label for="subject">Wiadomość</label>
+        <textarea id="subject" name="subject" placeholder="Twoja wiadomość..." style="height:200px"></textarea>
+
         <input type="submit" value="Submit">
     </form>
 </div>
