@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import pl.owsianka.magazyn.database.UserDatabase;
 import pl.owsianka.magazyn.model.User;
 
@@ -34,7 +35,13 @@ public class AuthenticationController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
-    public String register() {
+    public String register(Model model) {
+        model.addAttribute("user", new User());
         return "register";
+    }
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public String register2(@ModelAttribute User user, @RequestParam String password2) {
+        return null;
     }
 }
