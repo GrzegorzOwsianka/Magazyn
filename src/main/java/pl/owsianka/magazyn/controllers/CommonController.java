@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import pl.owsianka.magazyn.services.ProductsService;
+import pl.owsianka.magazyn.services.IProductsService;
 import pl.owsianka.magazyn.session.SessionObject;
 
 import javax.annotation.Resource;
@@ -14,7 +14,7 @@ import javax.annotation.Resource;
 public class CommonController {
 
     @Autowired
-    ProductsService productsService;
+    IProductsService productsService;
 
     @Resource
     SessionObject sessionObject;

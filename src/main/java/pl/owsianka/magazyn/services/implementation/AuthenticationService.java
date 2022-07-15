@@ -1,17 +1,18 @@
-package pl.owsianka.magazyn.services;
+package pl.owsianka.magazyn.services.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.owsianka.magazyn.database.IUserDAO;
 import pl.owsianka.magazyn.exceptions.LoginAlreadyExistException;
 import pl.owsianka.magazyn.model.User;
+import pl.owsianka.magazyn.services.IAuthenticationService;
 import pl.owsianka.magazyn.session.SessionObject;
 
 import javax.annotation.Resource;
 import java.util.Optional;
 
 @Service
-public class AuthenticationService {
+public class AuthenticationService implements IAuthenticationService {
 
     @Autowired
     IUserDAO userDAO;

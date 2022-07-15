@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import pl.owsianka.magazyn.exceptions.LoginAlreadyExistException;
 import pl.owsianka.magazyn.exceptions.ValidationException;
 import pl.owsianka.magazyn.model.User;
-import pl.owsianka.magazyn.services.AuthenticationService;
+import pl.owsianka.magazyn.services.IAuthenticationService;
 import pl.owsianka.magazyn.session.SessionObject;
 import pl.owsianka.magazyn.validators.UserDataValidator;
 
@@ -20,7 +20,7 @@ import javax.annotation.Resource;
 public class AuthenticationController {
 
     @Autowired
-    AuthenticationService authenticationService;
+    IAuthenticationService authenticationService;
 
     @Resource
     SessionObject sessionObject;
