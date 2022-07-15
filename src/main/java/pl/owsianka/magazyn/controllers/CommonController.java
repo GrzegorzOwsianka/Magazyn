@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import pl.owsianka.magazyn.database.IProductsDAO;
+import pl.owsianka.magazyn.services.ProductsService;
 import pl.owsianka.magazyn.session.SessionObject;
 
 import javax.annotation.Resource;
@@ -14,7 +14,7 @@ import javax.annotation.Resource;
 public class CommonController {
 
     @Autowired
-    IProductsDAO productsDAO;
+    ProductsService productsService;
 
     @Resource
     SessionObject sessionObject;
@@ -38,7 +38,7 @@ public class CommonController {
 
     @RequestMapping(value = "products", method = RequestMethod.GET)
     public String products(Model model) {
-        model.addAttribute("products", this.productsDAO.getProducts());
+        model.addAttribute("products", this.productsService.getAllProducts());
         model.addAttribute("logged", this.sessionObject.isLogged());
 
         if (!this.sessionObject.isLogged()) {

@@ -7,9 +7,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import pl.owsianka.magazyn.database.IUserDAO;
+import pl.owsianka.magazyn.exceptions.LoginAlreadyExistException;
 import pl.owsianka.magazyn.exceptions.ValidationException;
 import pl.owsianka.magazyn.model.User;
+import pl.owsianka.magazyn.services.AuthenticationService;
 import pl.owsianka.magazyn.session.SessionObject;
 import pl.owsianka.magazyn.validators.UserDataValidator;
 
@@ -20,7 +21,7 @@ import java.util.Optional;
 public class AuthenticationController {
 
     @Autowired
-    IUserDAO userDAO;
+    AuthenticationService authenticationService;
 
     @Resource
     SessionObject sessionObject;
@@ -40,9 +41,8 @@ public class AuthenticationController {
         } catch (ValidationException e) {
             return "redirect:/login";
         }
-        Optional<User> userFromDB = this.userDAO.getUserByLogin(user.getLogin());
-        if (userFromDB.isPresent() && userFromDB.get().getPassword().equals(user.getPassword())) {
-           this.sessionObject.setLogged(true);
+        this.authenticationService.authenticate(user);
+        if (this.sessionObject.isLogged()) {
             return "redirect:/products";
         }
         return "redirect:/login";
@@ -61,19 +61,16 @@ public class AuthenticationController {
             UserDataValidator.validateLogin(user.getLogin());
             UserDataValidator.validatePassword(user.getPassword());
             UserDataValidator.validatePasswordMatch(user.getPassword(), password2);
-        } catch (ValidationException e) {
+            this.authenticationService.register(user);
+        } catch (ValidationException | LoginAlreadyExistException e) {
             return "redirect:/register";
         }
-        if (this.userDAO.isLoginExist(user.getLogin())) {
-            return "redirect:/register";
-        }
-        this.userDAO.addUser(user);
         return "redirect:/main";
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout() {
-        this.sessionObject.setLogged(false);
+        this.authenticationService.logout();
         return "redirect:/main";
     }
 }
