@@ -1,13 +1,15 @@
-package pl.owsianka.magazyn.database;
+package pl.owsianka.magazyn.database.memory;
 
 import org.springframework.stereotype.Component;
+import pl.owsianka.magazyn.database.IUserDAO;
 import pl.owsianka.magazyn.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
-public class UserDatabase {
+public class UserDatabase implements IUserDAO {
     private List<User> users = new ArrayList<>();
 
     public UserDatabase() {
@@ -19,13 +21,20 @@ public class UserDatabase {
         return users;
     }
 
-    public User getUserByLogin(String login) {
+    public Optional<User> getUserByLogin(String login) {
         for(User user : this.users){
             if (user.getLogin().equals(login)) {
-                return user;
+                return Optional.of(user);
             }
         }
+        return Optional.empty();
+    }
 
-        return null;
+    public boolean isLoginExist(String login) {
+        return getUserByLogin(login).isPresent();
+    }
+
+    public void addUser(User user) {
+        this.users.add(user);
     }
 }

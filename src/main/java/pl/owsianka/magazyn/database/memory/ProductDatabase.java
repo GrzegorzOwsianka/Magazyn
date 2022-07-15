@@ -1,13 +1,14 @@
-package pl.owsianka.magazyn.database;
+package pl.owsianka.magazyn.database.memory;
 
 import org.springframework.stereotype.Component;
+import pl.owsianka.magazyn.database.IProductsDAO;
 import pl.owsianka.magazyn.model.Products;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class ProductDatabase {
+public class ProductDatabase implements IProductsDAO {
     private List<Products> products = new ArrayList<>();
 
     public ProductDatabase() {

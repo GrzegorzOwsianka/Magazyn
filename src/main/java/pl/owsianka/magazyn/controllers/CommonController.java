@@ -5,13 +5,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import pl.owsianka.magazyn.database.ProductDatabase;
+import pl.owsianka.magazyn.database.IProductsDAO;
+import pl.owsianka.magazyn.database.memory.ProductDatabase;
 
 @Controller
 public class CommonController {
 
     @Autowired
-    ProductDatabase productDatabase;
+    IProductsDAO productsDAO;
 
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public String main() {
@@ -30,7 +31,12 @@ public class CommonController {
 
     @RequestMapping(value = "products", method = RequestMethod.GET)
     public String products(Model model) {
-        model.addAttribute("products", this.productDatabase.getProducts());
+        model.addAttribute("products", this.productsDAO.getProducts());
+        model.addAttribute("logged", AuthenticationController.isLogged);
+
+        if (!AuthenticationController.isLogged) {
+            return "redirect:/login";
+        }
         return "products";
     }
 }

@@ -7,16 +7,20 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import pl.owsianka.magazyn.database.UserDatabase;
+import pl.owsianka.magazyn.database.IUserDAO;
+import pl.owsianka.magazyn.exceptions.ValidationException;
 import pl.owsianka.magazyn.model.User;
+import pl.owsianka.magazyn.validators.UserDataValidator;
+
+import java.util.Optional;
 
 @Controller
 public class AuthenticationController {
 
     @Autowired
-    UserDatabase userDatabase;
+    IUserDAO userDAO;
 
-    private boolean isLogged = false;
+    public static boolean isLogged = false;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(Model model) {
@@ -26,11 +30,17 @@ public class AuthenticationController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(@ModelAttribute User user) {
-        User userFromDB = this.userDatabase.getUserByLogin(user.getLogin());
-        if (userFromDB != null && userFromDB.getPassword().equals(user.getPassword())) {
-                this.isLogged = true;
-                return "redirect:/products";
-            }
+        try {
+            UserDataValidator.validateLogin(user.getLogin());
+            UserDataValidator.validatePassword(user.getPassword());
+        } catch (ValidationException e) {
+            return "redirect:/login";
+        }
+        Optional<User> userFromDB = this.userDAO.getUserByLogin(user.getLogin());
+        if (userFromDB.isPresent() && userFromDB.get().getPassword().equals(user.getPassword())) {
+            isLogged = true;
+            return "redirect:/products";
+        }
         return "redirect:/login";
     }
 
@@ -42,6 +52,17 @@ public class AuthenticationController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String register2(@ModelAttribute User user, @RequestParam String password2) {
-        return null;
+        try {
+            UserDataValidator.validateLogin(user.getLogin());
+            UserDataValidator.validatePassword(user.getPassword());
+            UserDataValidator.validatePasswordMatch(user.getPassword(), password2);
+        } catch (ValidationException e) {
+            return "redirect:/register";
+        }
+        if (this.userDAO.isLoginExist(user.getLogin())) {
+            return "redirect:/register";
+        }
+        this.userDAO.addUser(user);
+        return "redirect:/main";
     }
 }
