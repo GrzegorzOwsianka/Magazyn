@@ -15,7 +15,6 @@ import pl.owsianka.magazyn.session.SessionObject;
 import pl.owsianka.magazyn.validators.UserDataValidator;
 
 import javax.annotation.Resource;
-import java.util.Optional;
 
 @Controller
 public class AuthenticationController {
