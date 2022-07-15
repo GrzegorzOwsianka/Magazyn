@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import pl.owsianka.magazyn.database.IUserDAO;
 import pl.owsianka.magazyn.exceptions.ValidationException;
 import pl.owsianka.magazyn.model.User;
+import pl.owsianka.magazyn.session.SessionObject;
 import pl.owsianka.magazyn.validators.UserDataValidator;
 
+import javax.annotation.Resource;
 import java.util.Optional;
 
 @Controller
@@ -20,11 +22,13 @@ public class AuthenticationController {
     @Autowired
     IUserDAO userDAO;
 
-    public static boolean isLogged = false;
+    @Resource
+    SessionObject sessionObject;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(Model model) {
         model.addAttribute("user", new User());
+        model.addAttribute("logged", this.sessionObject.isLogged());
         return "login";
     }
 
@@ -38,7 +42,7 @@ public class AuthenticationController {
         }
         Optional<User> userFromDB = this.userDAO.getUserByLogin(user.getLogin());
         if (userFromDB.isPresent() && userFromDB.get().getPassword().equals(user.getPassword())) {
-            isLogged = true;
+           this.sessionObject.setLogged(true);
             return "redirect:/products";
         }
         return "redirect:/login";
@@ -47,6 +51,7 @@ public class AuthenticationController {
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String register(Model model) {
         model.addAttribute("user", new User());
+        model.addAttribute("logged", this.sessionObject.isLogged());
         return "register";
     }
 
@@ -63,6 +68,12 @@ public class AuthenticationController {
             return "redirect:/register";
         }
         this.userDAO.addUser(user);
+        return "redirect:/main";
+    }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logout() {
+        this.sessionObject.setLogged(false);
         return "redirect:/main";
     }
 }
